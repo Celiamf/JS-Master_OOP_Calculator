@@ -6,6 +6,7 @@ const properties = {
   typeOfBtn: "",
   btnValue: "",
   numberOfSymbols: 0,
+  numberOfDecimals: false,
 };
 
 const methods = {
@@ -22,26 +23,30 @@ const methods = {
   render: (typeOfBtn, btnValue) => {
     if (typeOfBtn.includes("js-number")) {
       properties.numberOfSymbols = 0;
-      if (properties.resultBox.innerHTML === "Result") {
+      if (properties.resultBox.innerHTML == "0") {
         properties.resultBox.innerHTML = btnValue;
       } else {
         properties.resultBox.innerHTML += btnValue;
       }
     } else if (typeOfBtn.includes("js-symbol")) {
       properties.numberOfSymbols++;
-      if (properties.numberOfSymbols === 1) {
+      properties.numberOfDecimals = false;
+      if (properties.resultBox.innerHTML == "0") {
+        properties.resultBox.innerHTML = 0;
+      } else if (properties.numberOfSymbols === 1) {
         properties.resultBox.innerHTML += btnValue;
       }
+    } else if (typeOfBtn.includes("js-decimal")) {
+      if (!properties.numberOfDecimals) {
+        properties.resultBox.innerHTML += ".";
+        properties.numberOfDecimals = true;
+      }
+    } else if (typeOfBtn.includes("js-equals")) {
+      properties.resultBox.innerHTML = eval(properties.resultBox.innerHTML);
     } else if (typeOfBtn.includes("js-AC")) {
-      properties.resultBox.innerHTML = "";
+      properties.resultBox.innerHTML = 0;
     }
   },
-  // } else if (typeOfBtn.includes("js-equals")) {
-  //   console.log("Equals");
-  // } else if (typeOfBtn.includes("js-decimal")) {
-  //   console.log("It's decimal symbol");
-  // }
-  // },
 };
 
 methods.listenToBtns();
