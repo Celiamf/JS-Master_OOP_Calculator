@@ -7,6 +7,7 @@ const properties = {
   btnValue: "",
   numberOfSymbols: 0,
   numberOfDecimals: false,
+  resultHasBeenRendered: false,
 };
 
 const methods = {
@@ -23,7 +24,11 @@ const methods = {
   render: (typeOfBtn, btnValue) => {
     if (typeOfBtn.includes("js-number")) {
       properties.numberOfSymbols = 0;
-      if (properties.resultBox.innerHTML == "0") {
+      properties.resultHasBeenRendered = false;
+      if (
+        properties.resultBox.innerHTML == "0" ||
+        properties.resultHasBeenRendered == true
+      ) {
         properties.resultBox.innerHTML = btnValue;
       } else {
         properties.resultBox.innerHTML += btnValue;
@@ -43,6 +48,7 @@ const methods = {
       }
     } else if (typeOfBtn.includes("js-equals")) {
       properties.resultBox.innerHTML = eval(properties.resultBox.innerHTML);
+      properties.resultHasBeenRendered = true;
     } else if (typeOfBtn.includes("js-AC")) {
       properties.resultBox.innerHTML = 0;
     }
