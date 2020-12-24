@@ -1,13 +1,13 @@
 "use strict";
-debugger;
 
 const properties = {
   btns: document.querySelectorAll(".js-btn"),
-  action: "",
   resultBox: document.querySelector(".js-resultBox"),
+  typeOfBtn: "",
   btnValue: "",
+  numberOfSymbols: 0,
 };
-debugger;
+
 const methods = {
   listenToBtns: () => {
     for (let index = 0; index < properties.btns.length; index++) {
@@ -15,23 +15,33 @@ const methods = {
     }
   },
   getValue: (event) => {
-    properties.action = event.target.getAttribute("class");
-    properties.btnValue += event.target.innerHTML;
-    methods.render(properties.action);
+    properties.typeOfBtn = event.target.getAttribute("class");
+    properties.btnValue = event.target.innerHTML;
+    methods.render(properties.typeOfBtn, properties.btnValue);
   },
-  render: (action) => {
-    if (action.includes("js-number")) {
-      properties.resultBox.innerHTML = properties.btnValue;
-    } else if (action.includes("js-symbol")) {
-      console.log("It's a symbol");
-    } else if (action.includes("js-AC")) {
-      properties.btnValue = "";
-    } else if (action.includes("js-equals")) {
-      console.log("Equals");
-    } else if (action.includes("js-decimal")) {
-      console.log("It's decimal symbol");
+  render: (typeOfBtn, btnValue) => {
+    if (typeOfBtn.includes("js-number")) {
+      properties.numberOfSymbols = 0;
+      if (properties.resultBox.innerHTML === "Result") {
+        properties.resultBox.innerHTML = btnValue;
+      } else {
+        properties.resultBox.innerHTML += btnValue;
+      }
+    } else if (typeOfBtn.includes("js-symbol")) {
+      properties.numberOfSymbols++;
+      if (properties.numberOfSymbols === 1) {
+        properties.resultBox.innerHTML += btnValue;
+      }
+    } else if (typeOfBtn.includes("js-AC")) {
+      properties.resultBox.innerHTML = "";
     }
   },
+  // } else if (typeOfBtn.includes("js-equals")) {
+  //   console.log("Equals");
+  // } else if (typeOfBtn.includes("js-decimal")) {
+  //   console.log("It's decimal symbol");
+  // }
+  // },
 };
 
 methods.listenToBtns();
